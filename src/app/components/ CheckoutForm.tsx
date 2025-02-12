@@ -22,6 +22,7 @@ const CheckoutForm: React.FC = () => {
           formbuttoncolor: "#000000",
           merchantname: "Belicorp SAC",
           action: "",
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           complete: function (params: any) {
             console.log(params);
           },
