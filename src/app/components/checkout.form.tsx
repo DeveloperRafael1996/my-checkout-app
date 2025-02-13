@@ -10,12 +10,13 @@ const CheckoutForm: React.FC = () => {
     const openForm = () => {
       const amount = 10;
       const purchaseNumber = 2020100901;
-      const url = `/success?amount=${amount}&purchaseNumber=${purchaseNumber}`;
+      //const url = `/success?amount=${amount}&purchaseNumber=${purchaseNumber}`;
+      const url = "/api/payment";
 
       if (window.VisanetCheckout) {
         window.VisanetCheckout.configure({
           sessiontoken:
-            "e611d0e4aa77f855f71a4a754752e0732fec845ed843033f5eafcee1261de2cb",
+            "2fad47eede82c3054f49dae36e1d6d64bfe953d7505d02be20f2eecb28c8d502",
           channel: "web",
           merchantid: "456879852",
           purchasenumber: purchaseNumber,

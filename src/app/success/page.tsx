@@ -7,6 +7,7 @@ const SuccessPage = () => {
 
   const amount = searchParams.get("amount");
   const purchaseNumber = searchParams.get("purchaseNumber");
+  console.log(searchParams);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center">
