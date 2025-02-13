@@ -8,20 +8,25 @@ const CheckoutForm: React.FC = () => {
 
   useEffect(() => {
     const openForm = () => {
+      const amount = 10;
+      const purchaseNumber = 2020100901;
+      const url = `/success?amount=${amount}&purchaseNumber=${purchaseNumber}`;
+
       if (window.VisanetCheckout) {
         window.VisanetCheckout.configure({
           sessiontoken:
-            "3b9d3db5141bdd4fd71dd69915dc6b082679b4f2548825e4e64a91c033af13ba",
+            "e611d0e4aa77f855f71a4a754752e0732fec845ed843033f5eafcee1261de2cb",
           channel: "web",
           merchantid: "456879852",
-          purchasenumber: 2020100901,
-          amount: 10.5,
-          expirationminutes: "20",
-          timeouturl: "about:blank",
+          purchasenumber: purchaseNumber,
+          amount: amount,
+          expirationminutes: "5",
+          timeouturl: "/",
           merchantlogo: "",
-          formbuttoncolor: "#000000",
           merchantname: "Belicorp SAC",
-          action: "",
+          action: url,
+          formbuttoncolor: "#000000",
+          buttonsize: "LARGE",
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           complete: function (params: any) {
             console.log(params);
