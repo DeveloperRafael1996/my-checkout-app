@@ -4,6 +4,8 @@ import { useSearchParams } from "next/navigation";
 import { useAuthorizationMutation } from "../composable/use.niubiz";
 import { AuthorizationData } from "../dto/authorization.dto";
 import { useEffect, useState } from "react";
+import pino from "pino";
+
 import {
   ErrorTransaction,
   Transaction,
@@ -14,6 +16,7 @@ import axios from "axios";
 
 const SuccessPage = () => {
   //Generate Token
+  const logger = pino();
 
   const [transactionData, setTransactionData] =
     useState<TransactionState | null>(null);
@@ -72,6 +75,9 @@ const SuccessPage = () => {
         const res = (await onHandleAuthorization(request)) as Transaction;
         setTransactionData({ status: "success", data: res });
       } catch (error) {
+        console.error("Api Token");
+        console.error(error);
+
         if (axios.isAxiosError(error)) {
           if (error.response) {
             const response = error.response.data as ErrorTransaction;
@@ -85,9 +91,11 @@ const SuccessPage = () => {
             */
           } else {
             console.error("Error Sin Respuesta Servidor:", error.message);
+            logger.error("Error Sin Respuesta Servidor:", error.message);
           }
         } else {
           console.error("Error Desconocido:", error);
+          logger.error("Error Desconocido:", error);
         }
       }
     }
