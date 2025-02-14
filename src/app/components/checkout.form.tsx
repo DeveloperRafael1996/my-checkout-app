@@ -2,12 +2,21 @@
 
 import { useEffect, useState } from "react";
 import Script from "next/script";
+import { useSession } from "../composable/use.payment";
+import pino from "pino";
 
 const CheckoutForm: React.FC = () => {
+  const logger = pino();
+
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
+  const { sessionKey } = useSession();
+  logger.info(sessionKey);
 
   useEffect(() => {
     const openForm = () => {
+      //Consume Token
+      //Consume Session
+
       const amount = 10;
       const purchaseNumber = 2020100901;
       const apiUrl = `/api/payment?amount=${amount}&purchaseNumber=${purchaseNumber}`;
@@ -15,7 +24,7 @@ const CheckoutForm: React.FC = () => {
       if (window.VisanetCheckout) {
         window.VisanetCheckout.configure({
           sessiontoken:
-            "af886e279a712612a02707ae77be843dcf77d7db4f89fe766213bee080a11354",
+            "b69571e1fa23e0b34e30fd0a5f7e5b50a7b4944bda828c41ad751410c35dd9d8",
           channel: "web",
           merchantid: "456879852",
           purchasenumber: purchaseNumber,
