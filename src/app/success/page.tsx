@@ -99,7 +99,7 @@ const SuccessPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center">
-      <h1
+      {/* <h1
         className={`text-2xl font-bold ${
           transactionData && transactionData.status === "success"
             ? "text-green-600"
@@ -109,7 +109,7 @@ const SuccessPage = () => {
         {transactionData && transactionData.status === "success"
           ? "Pago Exitoso 🎉"
           : "Error Pago 😞"}
-      </h1>
+      </h1> */}
 
       {transactionData ? (
         transactionData.status === "success" ? (
