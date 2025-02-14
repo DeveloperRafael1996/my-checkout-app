@@ -4,15 +4,20 @@ import { useSearchParams } from "next/navigation";
 import { useAuthorizationMutation } from "../composable/use.niubiz";
 import { AuthorizationData } from "../dto/authorization.dto";
 import { useEffect, useState } from "react";
-import { Transaction } from "../dto/transaction.dto";
+import {
+  ErrorTransaction,
+  Transaction,
+  TransactionState,
+} from "../dto/transaction.dto";
+import axios from "axios";
 // import { convertDate } from "../utils/date";
 
 const SuccessPage = () => {
   //Generate Token
 
-  const [transactionData, setTransactionData] = useState<Transaction | null>(
-    null
-  );
+  const [transactionData, setTransactionData] =
+    useState<TransactionState | null>(null);
+
   const searchParams = useSearchParams();
   const transactionToken = searchParams.get("transactionToken");
   const purchaseNumber = searchParams.get("purchaseNumber");
@@ -65,27 +70,25 @@ const SuccessPage = () => {
 
       try {
         const res = (await onHandleAuthorization(request)) as Transaction;
-        setTransactionData(res);
-
-        /* Data Show View
-          const mapper = res.dataMap;
-          const { date } = convertDate(mapper.TRANSACTION_DATE);
-
-          const logValues = {
-            STATUS: mapper.STATUS,
-            ACTION_DESCRIPTION: mapper.ACTION_DESCRIPTION,
-            purchaseNumber,
-            CARD: mapper.CARD,
-            BRAND: mapper.BRAND.toUpperCase(),
-            amount: res.order.amount,
-            currency: res.order.currency,
-            TRANSACTION_DATE: mapper.TRANSACTION_DATE,
-            DATE: date?.toISOString(),
-          };
-
-        */
+        setTransactionData({ status: "success", data: res });
       } catch (error) {
-        console.error("Error Autorización:", error);
+        if (axios.isAxiosError(error)) {
+          if (error.response) {
+            const response = error.response.data as ErrorTransaction;
+            setTransactionData({ status: "error", error: response });
+
+            /* Step 2
+            console.error("Error Autorización:", {
+              status: error.response.status,
+              data: error.response.data,
+            });
+            */
+          } else {
+            console.error("Error Sin Respuesta Servidor:", error.message);
+          }
+        } else {
+          console.error("Error Desconocido:", error);
+        }
       }
     }
   };
@@ -96,27 +99,49 @@ const SuccessPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center">
-      <h1 className="text-2xl font-bold text-green-600">Pago Exitoso 🎉</h1>
+      <h1
+        className={`text-2xl font-bold ${
+          transactionData && transactionData.status === "success"
+            ? "text-green-600"
+            : "text-red-600"
+        }`}
+      >
+        {transactionData && transactionData.status === "success"
+          ? "Pago Exitoso 🎉"
+          : "Error Pago 😞"}
+      </h1>
+
       {transactionData ? (
-        <div className="mt-4 p-4 bg-white rounded-lg shadow-md">
-          <p className="text-lg font-semibold">
-            Estado: {transactionData.dataMap.STATUS}
-          </p>
-          <p className="text-lg">
-            Descripción: {transactionData.dataMap.ACTION_DESCRIPTION}
-          </p>
-          <p className="text-lg">Número de Compra:</p>
-          <p className="text-lg">Tarjeta: {transactionData.dataMap.CARD}</p>
-          <p className="text-lg">Marca: {transactionData.dataMap.BRAND.toUpperCase()}</p>
-          <p className="text-lg">
-            {" "}
-            Monto: {transactionData.order.amount}{" "}
-            {transactionData.order.currency}
-          </p>
-          <p className="text-lg">
-            Fecha Transacción: {transactionData.dataMap.TRANSACTION_DATE}
-          </p>
-        </div>
+        transactionData.status === "success" ? (
+          <div className="mt-4 p-4 bg-white rounded-lg shadow-md w-full max-w-xl">
+            <p className="text-lg font-semibold">
+              Estado: {transactionData.data.dataMap.STATUS}
+            </p>
+            <p className="text-lg">
+              Descripción: {transactionData.data.dataMap.ACTION_DESCRIPTION}
+            </p>
+            <p className="text-lg">Número de Compra: {purchaseNumber}</p>
+            <p className="text-lg">
+              Tarjeta: {transactionData.data.dataMap.CARD}
+            </p>
+            <p className="text-lg">
+              Marca: {transactionData.data.dataMap.BRAND.toUpperCase()}
+            </p>
+            <p className="text-lg">
+              Monto: {transactionData.data.order.amount}{" "}
+              {transactionData.data.order.currency}
+            </p>
+            <p className="text-lg">
+              Fecha Transacción: {transactionData.data.dataMap.TRANSACTION_DATE}
+            </p>
+          </div>
+        ) : (
+          <div className="mt-4 p-4 bg-red-100 text-red-700 rounded-lg shadow-md w-full max-w-xl">
+            <p className="text-lg">
+              Error: {transactionData.error.data.STATUS}
+            </p>
+          </div>
+        )
       ) : (
         <p className="text-lg">Procesando Transacción...</p>
       )}

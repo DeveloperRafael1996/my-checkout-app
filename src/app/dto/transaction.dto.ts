@@ -94,3 +94,7 @@ export type ErrorTransaction = {
     TRANSACTION_ID: string;
   };
 };
+
+export type TransactionState =
+  | { status: "success"; data: Transaction }
+  | { status: "error"; error: ErrorTransaction };
