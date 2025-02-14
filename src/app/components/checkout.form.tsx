@@ -15,7 +15,7 @@ const CheckoutForm: React.FC = () => {
       if (window.VisanetCheckout) {
         window.VisanetCheckout.configure({
           sessiontoken:
-            "5492b2333c0f345cd4dfc78703fc7e1da1c873336a12b19f1f98d341aad51aaf",
+            "19a2df34fbb9d88345462311094e706ab63967c6e040495e237a4c6809687cc2",
           channel: "web",
           merchantid: "456879852",
           purchasenumber: purchaseNumber,
