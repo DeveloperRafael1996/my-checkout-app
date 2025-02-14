@@ -75,9 +75,6 @@ const SuccessPage = () => {
         const res = (await onHandleAuthorization(request)) as Transaction;
         setTransactionData({ status: "success", data: res });
       } catch (error) {
-        console.error("Api Token");
-        console.error(error);
-
         if (axios.isAxiosError(error)) {
           if (error.response) {
             const response = error.response.data as ErrorTransaction;
