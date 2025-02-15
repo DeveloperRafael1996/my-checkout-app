@@ -3,8 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useAuthorizationMutation } from "../composable/use.niubiz";
 import { AuthorizationData } from "../dto/authorization.dto";
-import { useCallback, useEffect, useState } from "react";
-import pino from "pino";
+import { Suspense, useCallback, useEffect, useState } from "react";
 
 import {
   ErrorTransaction,
@@ -13,9 +12,7 @@ import {
 } from "../dto/transaction.dto";
 import axios from "axios";
 
-const logger = pino();
-
-const SuccessPage = () => {
+const SuccessPageContent = () => {
   const [transactionData, setTransactionData] =
     useState<TransactionState | null>(null);
 
@@ -51,15 +48,22 @@ const SuccessPage = () => {
         const res = (await onHandleAuthorization(request)) as Transaction;
         setTransactionData({ status: "success", data: res });
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          if (error.response) {
-            const response = error.response.data as ErrorTransaction;
-            setTransactionData({ status: "error", error: response });
-          } else {
-            logger.error("Error Sin Respuesta Servidor:", error.message);
-          }
+        if (axios.isAxiosError(error) && error.response) {
+          setTransactionData({
+            status: "error",
+            error: error.response.data as ErrorTransaction,
+          });
         } else {
-          logger.error("Error Desconocido:", error);
+          setTransactionData({
+            status: "error",
+            error: {
+              errorCode: 400,
+              errorMessage: "Transacción Fallida",
+              data: {
+                STATUS: "Error Niubiz",
+              },
+            },
+          });
         }
       }
     }
@@ -71,18 +75,6 @@ const SuccessPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center">
-      {/* <h1
-        className={`text-2xl font-bold ${
-          transactionData && transactionData.status === "success"
-            ? "text-green-600"
-            : "text-red-600"
-        }`}
-      >
-        {transactionData && transactionData.status === "success"
-          ? "Pago Exitoso 🎉"
-          : "Error Pago 😞"}
-      </h1> */}
-
       {transactionData ? (
         transactionData.status === "success" ? (
           <div className="mt-4 p-4 bg-white rounded-lg shadow-md w-full max-w-xl">
@@ -97,7 +89,7 @@ const SuccessPage = () => {
               Tarjeta: {transactionData.data.dataMap.CARD}
             </p>
             <p className="text-lg">
-              Marca: {transactionData.data.dataMap.BRAND.toUpperCase()}
+              Marca: {transactionData.data.dataMap.BRAND?.toUpperCase()}
             </p>
             <p className="text-lg">
               Monto: {transactionData.data.order.amount}{" "}
@@ -110,7 +102,7 @@ const SuccessPage = () => {
         ) : (
           <div className="mt-4 p-4 bg-red-100 text-red-700 rounded-lg shadow-md w-full max-w-xl">
             <p className="text-lg">
-              Error: {transactionData.error.data.STATUS}
+              Error: {transactionData.error.data?.STATUS || "Error Desconocido Reload"}
             </p>
           </div>
         )
@@ -118,6 +110,14 @@ const SuccessPage = () => {
         <p className="text-lg">Procesando Transacción...</p>
       )}
     </div>
+  );
+};
+
+const SuccessPage = () => {
+  return (
+    <Suspense fallback={<p className="text-lg">Cargando...</p>}>
+      <SuccessPageContent />
+    </Suspense>
   );
 };
 
