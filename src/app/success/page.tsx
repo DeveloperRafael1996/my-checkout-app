@@ -11,6 +11,8 @@ import {
   TransactionState,
 } from "../dto/transaction.dto";
 import axios from "axios";
+import SuccessMobile from "../components/success";
+import PagoErrorMobile from "../components/error";
 
 const SuccessPageContent = () => {
   const [transactionData, setTransactionData] =
@@ -74,37 +76,12 @@ const SuccessPageContent = () => {
   }, [handleAuthorization]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center">
+    <div>
       {transactionData ? (
         transactionData.status === "success" ? (
-          <div className="mt-4 p-4 bg-white rounded-lg shadow-md w-full max-w-xl">
-            <p className="text-lg font-semibold">
-              Estado: {transactionData.data.dataMap.STATUS}
-            </p>
-            <p className="text-lg">
-              Descripción: {transactionData.data.dataMap.ACTION_DESCRIPTION}
-            </p>
-            <p className="text-lg">Número de Compra: {purchaseNumber}</p>
-            <p className="text-lg">
-              Tarjeta: {transactionData.data.dataMap.CARD}
-            </p>
-            <p className="text-lg">
-              Marca: {transactionData.data.dataMap.BRAND?.toUpperCase()}
-            </p>
-            <p className="text-lg">
-              Monto: {transactionData.data.order.amount}{" "}
-              {transactionData.data.order.currency}
-            </p>
-            <p className="text-lg">
-              Fecha Transacción: {transactionData.data.dataMap.TRANSACTION_DATE}
-            </p>
-          </div>
+          <SuccessMobile></SuccessMobile>
         ) : (
-          <div className="mt-4 p-4 bg-red-100 text-red-700 rounded-lg shadow-md w-full max-w-xl">
-            <p className="text-lg">
-              Error: {transactionData.error.data?.STATUS || "Error Desconocido Reload"}
-            </p>
-          </div>
+          <PagoErrorMobile></PagoErrorMobile>
         )
       ) : (
         <p className="text-lg">Procesando Transacción...</p>
