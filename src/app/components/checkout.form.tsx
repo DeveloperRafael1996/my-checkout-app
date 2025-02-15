@@ -8,7 +8,7 @@ import pino from "pino";
 const CheckoutForm: React.FC = () => {
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
   const logger = pino();
-  
+
   const { sessionKey } = useSession();
   logger.info({ sessionKey });
 
