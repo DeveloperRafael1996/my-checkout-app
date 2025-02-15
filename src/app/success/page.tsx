@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useAuthorizationMutation } from "../composable/use.niubiz";
 import { AuthorizationData } from "../dto/authorization.dto";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import pino from "pino";
 
 import {
@@ -12,12 +12,10 @@ import {
   TransactionState,
 } from "../dto/transaction.dto";
 import axios from "axios";
-// import { convertDate } from "../utils/date";
+
+const logger = pino();
 
 const SuccessPage = () => {
-  //Generate Token
-  const logger = pino();
-
   const [transactionData, setTransactionData] =
     useState<TransactionState | null>(null);
 
@@ -27,29 +25,7 @@ const SuccessPage = () => {
   const amount = Number(searchParams.get("amount"));
   const { onHandleAuthorization } = useAuthorizationMutation();
 
-  /*
-  const request: AuthorizationData = {
-    captureType: "manual",
-    channel: "web",
-    countable: true,
-    order: {
-      amount: amount,
-      currency: "PEN",
-      purchaseNumber: purchaseNumber!,
-      tokenId: transactionToken!,
-    },
-    dataMap: {
-      urlAddress: "",
-      partnerIdCode: "",
-      serviceLocationCityName: "LIMA",
-      serviceLocationCountrySubdivisionCode: "LIMA",
-      serviceLocationCountryCode: "PER",
-      serviceLocationPostalCode: "15074",
-    },
-  };
-  */
-
-  const handleAuthorization = async () => {
+  const handleAuthorization = useCallback(async () => {
     if (transactionToken && purchaseNumber && amount) {
       const request: AuthorizationData = {
         captureType: "manual",
@@ -79,28 +55,19 @@ const SuccessPage = () => {
           if (error.response) {
             const response = error.response.data as ErrorTransaction;
             setTransactionData({ status: "error", error: response });
-
-            /* Step 2
-            console.error("Error Autorización:", {
-              status: error.response.status,
-              data: error.response.data,
-            });
-            */
           } else {
-            console.error("Error Sin Respuesta Servidor:", error.message);
             logger.error("Error Sin Respuesta Servidor:", error.message);
           }
         } else {
-          console.error("Error Desconocido:", error);
           logger.error("Error Desconocido:", error);
         }
       }
     }
-  };
+  }, [transactionToken, purchaseNumber, amount, onHandleAuthorization]);
 
   useEffect(() => {
     handleAuthorization();
-  }, [transactionToken, purchaseNumber, amount]);
+  }, [handleAuthorization]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center">
