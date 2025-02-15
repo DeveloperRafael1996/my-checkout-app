@@ -30,7 +30,7 @@ const CheckoutForm: React.FC = () => {
           merchantlogo: "",
           merchantname: "Belicorp SAC",
           action: apiUrl,
-          formbuttoncolor: "#000000",
+          formbuttoncolor: "#430AFF",
           buttonsize: "LARGE",
         });
 

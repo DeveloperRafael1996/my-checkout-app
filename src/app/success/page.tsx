@@ -12,7 +12,8 @@ import {
 } from "../dto/transaction.dto";
 import axios from "axios";
 import SuccessMobile from "../components/success";
-import PagoErrorMobile from "../components/error";
+import PagoErrorMobile from "../components/error.pay";
+import MobileLoading from "../components/loading";
 
 const SuccessPageContent = () => {
   const [transactionData, setTransactionData] =
@@ -84,7 +85,8 @@ const SuccessPageContent = () => {
           <PagoErrorMobile></PagoErrorMobile>
         )
       ) : (
-        <p className="text-lg">Procesando Transacción...</p>
+        <MobileLoading></MobileLoading>
+        // <p className="text-lg">Procesando Transacción...</p>
       )}
     </div>
   );
