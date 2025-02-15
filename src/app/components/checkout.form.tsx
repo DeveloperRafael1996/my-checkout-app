@@ -5,12 +5,12 @@ import Script from "next/script";
 import { useSession } from "../composable/use.payment";
 import pino from "pino";
 
+const logger = pino();
+
 const CheckoutForm: React.FC = () => {
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
-  const logger = pino();
-
   const { sessionKey } = useSession();
-  logger.info({ sessionKey });
+
 
   useEffect(() => {
     const openForm = () => {
@@ -36,7 +36,7 @@ const CheckoutForm: React.FC = () => {
 
         window.VisanetCheckout.open();
       } else {
-        console.error("VisanetCheckout Script Not Loaded Property");
+        logger.error("VisanetCheckout Script Not Loaded Property");
       }
     };
 
@@ -51,7 +51,7 @@ const CheckoutForm: React.FC = () => {
         strategy="afterInteractive"
         src="https://static-content-qas.vnforapps.com/v2/js/checkout.js"
         onLoad={() => {
-          console.log("Checkout Script Loaded Successfully");
+          logger.info("Checkout Script Loaded Successfully");
           setIsScriptLoaded(true);
         }}
       />

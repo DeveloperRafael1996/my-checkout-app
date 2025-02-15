@@ -16,3 +16,37 @@ export function convertDate(dateStr: string): {
 
   return { date };
 }
+
+export function convertTimestamp(timestamp: number): string {
+  if (!timestamp) return "Fecha Inválida";
+
+  const date = new Date(timestamp);
+
+  return new Intl.DateTimeFormat("es-ES", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  }).format(date);
+}
+
+export function convertTimestampText(timestamp: number): string {
+  if (!timestamp) return "Fecha Inválida";
+
+  const date = new Date(timestamp);
+
+  const formattedDate = date.toLocaleDateString("es-ES", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  });
+
+  return formattedDate;
+}

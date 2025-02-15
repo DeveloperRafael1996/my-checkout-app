@@ -95,10 +95,12 @@ export type ErrorTransaction = {
   };
 };
 
+/*
 type SimplifiedErrorTransaction = Omit<ErrorTransaction, "header" | "data"> & {
   data: { STATUS: string };
 };
+*/
 
 export type TransactionState =
   | { status: "success"; data: Transaction }
-  | { status: "error"; error: SimplifiedErrorTransaction };
+  | { status: "error"; error: ErrorTransaction };

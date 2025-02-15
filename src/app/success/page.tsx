@@ -57,6 +57,8 @@ const SuccessPageContent = () => {
             error: error.response.data as ErrorTransaction,
           });
         } else {
+
+          /* Fixear
           setTransactionData({
             status: "error",
             error: {
@@ -67,6 +69,7 @@ const SuccessPageContent = () => {
               },
             },
           });
+          */
         }
       }
     }
@@ -82,11 +85,10 @@ const SuccessPageContent = () => {
         transactionData.status === "success" ? (
           <SuccessMobile></SuccessMobile>
         ) : (
-          <PagoErrorMobile></PagoErrorMobile>
+          <PagoErrorMobile state={transactionData} purchaseNumber={purchaseNumber!}></PagoErrorMobile>
         )
       ) : (
         <MobileLoading></MobileLoading>
-        // <p className="text-lg">Procesando Transacción...</p>
       )}
     </div>
   );

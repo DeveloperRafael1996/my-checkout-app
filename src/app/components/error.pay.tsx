@@ -10,15 +10,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { TransactionState } from "../dto/transaction.dto";
+import { convertTimestampText } from "../utils/date";
 
-export default function PagoErrorMobile() {
-  const fecha = new Date().toLocaleDateString("es-ES", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+export default function PagoErrorMobile({ state, purchaseNumber }: { state: TransactionState;  purchaseNumber: string }) {
+  if (state.status !== "error") return null;
+  const { data, header } = state.error;
+  const date = convertTimestampText(header.ecoreTransactionDate);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#FFF0F0] to-[#FFE5E5] px-4">
@@ -43,7 +41,7 @@ export default function PagoErrorMobile() {
             transition={{ delay: 0.3 }}
           >
             <p className="text-center text-sm text-gray-700">
-              Lo sentimos, ha ocurrido un error al procesar tu pago.
+              {data.ACTION_DESCRIPTION}
             </p>
           </motion.div>
           <motion.div
@@ -54,20 +52,19 @@ export default function PagoErrorMobile() {
           >
             <p className="text-xs text-gray-600">
               <span className="font-semibold text-[#FF3A3A]">
-                Código de error:
+                Numero Pedido:
               </span>{" "}
-              ERR-
-              {Math.floor(1000 + Math.random() * 9000)}
+              {purchaseNumber}
             </p>
             <p className="text-xs text-gray-600">
               <span className="font-semibold text-[#FF3A3A]">Fecha:</span>{" "}
-              {fecha}
+              {date}
             </p>
           </motion.div>
         </CardContent>
         <CardFooter className="pt-2">
           <Button className="w-full bg-[#FF3A3A] hover:bg-[#CC2E2E] transition-colors duration-300 text-sm py-2">
-            Intentar de nuevo
+            Intentar de Nuevo
           </Button>
         </CardFooter>
       </Card>
