@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { TransactionState } from "../dto/transaction.dto";
 import { convertTimestampText } from "../utils/date";
+import { useRouter } from "next/navigation";
 
 export default function PagoErrorMobile({
   state,
@@ -20,9 +21,15 @@ export default function PagoErrorMobile({
   state: TransactionState;
   purchaseNumber: string;
 }) {
+  const router = useRouter();
+
   if (state.status !== "error") return null;
   const { data, header } = state.error;
   const date = convertTimestampText(header?.ecoreTransactionDate);
+
+  const handleGoHome = () => {
+    router.push("/");
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#FFF0F0] to-[#FFE5E5] px-4">
@@ -69,7 +76,10 @@ export default function PagoErrorMobile({
           </motion.div>
         </CardContent>
         <CardFooter className="pt-2">
-          <Button className="w-full bg-[#FF3A3A] hover:bg-[#CC2E2E] transition-colors duration-300 text-sm py-2">
+          <Button
+            className="w-full bg-[#FF3A3A] hover:bg-[#CC2E2E] transition-colors duration-300 text-sm py-2"
+            onClick={handleGoHome}
+          >
             Intentar de Nuevo
           </Button>
         </CardFooter>
