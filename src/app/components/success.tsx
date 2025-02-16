@@ -10,15 +10,24 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { TransactionState } from "../dto/transaction.dto";
+import { convertTimestampText } from "../utils/date";
+import { DataItem, DataItemAlternative } from "./data.item";
 
-export default function SuccessMobile() {
-  const fecha = new Date().toLocaleDateString("es-ES", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+export default function SuccessMobile({
+  data,
+  purchaseNumber,
+  showAlternativeView = false,
+}: {
+  data: TransactionState;
+  purchaseNumber: string;
+  showAlternativeView?: boolean;
+}) {
+  if (data.status !== "success") return null;
+
+  const { order, dataMap, header } = data.data;
+  const date = convertTimestampText(header.ecoreTransactionDate);
+  const card = `${dataMap.CARD} - ${dataMap.BRAND.toUpperCase()}`;
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#F0EBFF] to-[#E5DEFF] px-4">
@@ -46,28 +55,49 @@ export default function SuccessMobile() {
               ¡Tu pago ha sido procesado con éxito!
             </p>
           </motion.div>
-          <motion.div
-            className="space-y-2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-          >
-            <p className="text-xs text-gray-600">
-              <span className="font-semibold text-[#430AFF]">
-                Orden de pago:
-              </span>{" "}
-              #ORD-
-              {Math.floor(100000 + Math.random() * 900000)}
-            </p>
-            <p className="text-xs text-gray-600">
-              <span className="font-semibold text-[#430AFF]">Fecha:</span>{" "}
-              {fecha}
-            </p>
-          </motion.div>
+
+          {showAlternativeView ? (
+            <motion.div
+              className="space-y-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+            >
+              <DataItemAlternative
+                label="Numero Pedido"
+                value={purchaseNumber}
+              />
+              <DataItemAlternative
+                label="Cliente"
+                value="Rafael Guevara Aller"
+              />
+              <DataItemAlternative label="Fecha" value={date} />
+              <DataItemAlternative label="Tarjeta" value={card} />
+              <DataItemAlternative label="Moneda" value={order.currency} />
+              <DataItemAlternative
+                label="Importe"
+                value={order.amount.toString()}
+              />
+            </motion.div>
+          ) : (
+            <motion.div
+              className="grid grid-cols-2 gap-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+            >
+              <DataItem label="Numero Pedido" value={purchaseNumber} />
+              <DataItem label="Cliente" value="Rafael Guevara Aller" />
+              <DataItem label="Fecha" value={date} />
+              <DataItem label="Tarjeta" value={card} />
+              <DataItem label="Moneda" value={order.currency} />
+              <DataItem label="Importe" value={order.amount.toString()} />
+            </motion.div>
+          )}
         </CardContent>
         <CardFooter className="pt-2">
           <Button className="w-full bg-[#430AFF] hover:bg-[#3308CC] transition-colors duration-300 text-sm py-2">
-            Continuar
+            Volver Inicio
           </Button>
         </CardFooter>
       </Card>

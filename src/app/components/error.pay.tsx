@@ -13,10 +13,16 @@ import {
 import { TransactionState } from "../dto/transaction.dto";
 import { convertTimestampText } from "../utils/date";
 
-export default function PagoErrorMobile({ state, purchaseNumber }: { state: TransactionState;  purchaseNumber: string }) {
+export default function PagoErrorMobile({
+  state,
+  purchaseNumber,
+}: {
+  state: TransactionState;
+  purchaseNumber: string;
+}) {
   if (state.status !== "error") return null;
   const { data, header } = state.error;
-  const date = convertTimestampText(header.ecoreTransactionDate);
+  const date = convertTimestampText(header?.ecoreTransactionDate);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#FFF0F0] to-[#FFE5E5] px-4">
@@ -41,7 +47,7 @@ export default function PagoErrorMobile({ state, purchaseNumber }: { state: Tran
             transition={{ delay: 0.3 }}
           >
             <p className="text-center text-sm text-gray-700">
-              {data.ACTION_DESCRIPTION}
+              {data?.ACTION_DESCRIPTION}
             </p>
           </motion.div>
           <motion.div
