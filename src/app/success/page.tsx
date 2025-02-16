@@ -1,8 +1,8 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useAuthorizationMutation } from "../composable/use.niubiz";
-import { AuthorizationData } from "../dto/authorization.dto";
+// import { useAuthorizationMutation } from "../composable/use.niubiz";
+import { RequestWebhookDto } from "../dto/authorization.dto";
 import { Suspense, useCallback, useEffect, useState } from "react";
 
 import {
@@ -14,10 +14,12 @@ import axios from "axios";
 import SuccessMobile from "../components/success";
 import PagoErrorMobile from "../components/error.pay";
 import MobileLoading from "../components/loading";
+import { useAuthorizationMutation } from "../composable/use.payment";
 
 const SuccessPageContent = () => {
   const [transactionData, setTransactionData] =
     useState<TransactionState | null>(null);
+  //const { onHandleAuthorization } = useAuthorizationMutation();
 
   const searchParams = useSearchParams();
   const transactionToken = searchParams.get("transactionToken");
@@ -27,24 +29,12 @@ const SuccessPageContent = () => {
 
   const handleAuthorization = useCallback(async () => {
     if (transactionToken && purchaseNumber && amount) {
-      const request: AuthorizationData = {
-        captureType: "manual",
-        channel: "web",
-        countable: true,
-        order: {
-          amount: amount,
-          currency: "PEN",
-          purchaseNumber: purchaseNumber!,
-          tokenId: transactionToken!,
-        },
-        dataMap: {
-          urlAddress: "",
-          partnerIdCode: "",
-          serviceLocationCityName: "LIMA",
-          serviceLocationCountrySubdivisionCode: "LIMA",
-          serviceLocationCountryCode: "PER",
-          serviceLocationPostalCode: "15074",
-        },
+      const request: RequestWebhookDto = {
+        tokenId: transactionToken,
+        amount: amount,
+        clientId: 12222211,
+        email: "rguevara@belity.app",
+        purchaseNumber: purchaseNumber,
       };
 
       try {

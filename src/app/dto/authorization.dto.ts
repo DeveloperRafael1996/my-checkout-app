@@ -21,3 +21,11 @@ export type AuthorizationData = {
   order: Order;
   dataMap: DataMap;
 };
+
+export type RequestWebhookDto = {
+  tokenId: AuthorizationData["order"]["tokenId"];
+  purchaseNumber: AuthorizationData["order"]["purchaseNumber"];
+  amount: AuthorizationData["order"]["amount"];
+  clientId: number;
+  email: string;
+};

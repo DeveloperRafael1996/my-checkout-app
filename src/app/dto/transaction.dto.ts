@@ -104,3 +104,5 @@ type SimplifiedErrorTransaction = Omit<ErrorTransaction, "header" | "data"> & {
 export type TransactionState =
   | { status: "success"; data: Transaction }
   | { status: "error"; error: ErrorTransaction };
+
+export type TransactionResponse = Promise<Transaction | ErrorTransaction>;
