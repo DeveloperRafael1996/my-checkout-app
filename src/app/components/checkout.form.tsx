@@ -19,6 +19,7 @@ const CheckoutForm: React.FC = () => {
       const logo = "http://localhost:3000/images/belity-app.png";
 
       if (window.VisanetCheckout) {
+        //merchantname: "Belicorp SAC",
         window.VisanetCheckout.configure({
           sessiontoken: sessionKey,
           channel: "web",
@@ -28,9 +29,8 @@ const CheckoutForm: React.FC = () => {
           expirationminutes: "5",
           timeouturl: "/",
           merchantlogo: logo,
-          //merchantname: "Belicorp SAC",
           action: apiUrl,
-          formbuttoncolor: "#430AFF",
+          formbuttoncolor: "#3900AC",
           buttonsize: "LARGE",
           hidexbutton: "true",
           usertoken: "jperez@gmail.com",
