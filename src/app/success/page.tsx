@@ -1,7 +1,6 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-// import { useAuthorizationMutation } from "../composable/use.niubiz";
 import { RequestWebhookDto } from "../dto/authorization.dto";
 import { Suspense, useCallback, useEffect, useState } from "react";
 
@@ -19,7 +18,6 @@ import { useAuthorizationMutation } from "../composable/use.payment";
 const SuccessPageContent = () => {
   const [transactionData, setTransactionData] =
     useState<TransactionState | null>(null);
-  //const { onHandleAuthorization } = useAuthorizationMutation();
 
   const searchParams = useSearchParams();
   const transactionToken = searchParams.get("transactionToken");
@@ -48,16 +46,16 @@ const SuccessPageContent = () => {
           });
         } else {
           /* Fixear
-          setTransactionData({
-            status: "error",
-            error: {
-              errorCode: 400,
-              errorMessage: "Transacción Fallida",
-              data: {
-                STATUS: "Error Niubiz",
+            setTransactionData({
+              status: "error",
+              error: {
+                errorCode: 400,
+                errorMessage: "Transacción Fallida",
+                data: {
+                  STATUS: "Error Niubiz",
+                },
               },
-            },
-          });
+            });
           */
         }
       }
