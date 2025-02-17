@@ -8,13 +8,14 @@ import pino from "pino";
 const logger = pino();
 
 const CheckoutForm: React.FC = () => {
+  const amount = 50.5;
+  const purchaseNumber = 2020100903;
+
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
   const { sessionKey } = useSession();
 
   useEffect(() => {
     const openForm = () => {
-      const amount = 50.5;
-      const purchaseNumber = 2020100903;
       const apiUrl = `/api/payment?amount=${amount}&purchaseNumber=${purchaseNumber}`;
       const logo = "http://localhost:3000/images/belity-app.png";
 
