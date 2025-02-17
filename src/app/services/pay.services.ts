@@ -1,6 +1,6 @@
 import { RequestWebhookDto } from "../dto/authorization.dto";
 import { Security } from "../dto/security.dto";
-import { SessionResponse } from "../dto/sesion.dto";
+import { RequestSessionDto, SessionResponse } from "../dto/sesion.dto";
 import { TransactionResponse } from "../dto/transaction.dto";
 import { http_pay } from "../http/enpoint";
 
@@ -10,8 +10,10 @@ class PayService {
     return response.data;
   }
 
-  static async apiSession(): Promise<SessionResponse> {
-    const response = await http_pay.get("/payment/v1/session");
+  static async apiSession(
+    request: RequestSessionDto
+  ): Promise<SessionResponse> {
+    const response = await http_pay.post("/payment/v1/session", request);
     return response.data;
   }
 
