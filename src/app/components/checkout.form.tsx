@@ -13,8 +13,8 @@ const CheckoutForm: React.FC = () => {
 
   useEffect(() => {
     const openForm = () => {
-      const amount = 50.5;
-      const purchaseNumber = 2020100903;
+      const amount = 50.50;
+      const purchaseNumber = 2020100904;
       const apiUrl = `/api/payment?amount=${amount}&purchaseNumber=${purchaseNumber}`;
       const logo = "http://localhost:3000/images/belity-app.png";
 
@@ -50,7 +50,7 @@ const CheckoutForm: React.FC = () => {
     <>
       <Script
         strategy="afterInteractive"
-        src="https://static-content-qas.vnforapps.com/v2/js/checkout.js"
+        src="https://static-content-qas.vnforapps.com/env/sandbox/js/checkout.js"
         onLoad={() => {
           logger.info("Checkout Script Loaded Successfully");
           setIsScriptLoaded(true);
