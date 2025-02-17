@@ -29,6 +29,10 @@ export default function SuccessMobile({
   const date = convertTimestampText(header.ecoreTransactionDate);
   const card = `${dataMap.CARD} - ${dataMap.BRAND.toUpperCase()}`;
 
+  const handleGoEvent = () => {
+    console.log(`Send Event`);
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#F0EBFF] to-[#E5DEFF] px-4">
       <Card className="w-full max-w-[340px] border-[#430AFF]/20 shadow-lg shadow-[#430AFF]/10">
@@ -96,7 +100,10 @@ export default function SuccessMobile({
           )}
         </CardContent>
         <CardFooter className="pt-2">
-          <Button className="w-full bg-[#430AFF] hover:bg-[#3308CC] transition-colors duration-300 text-sm py-2">
+          <Button
+            className="w-full bg-[#430AFF] hover:bg-[#3308CC] transition-colors duration-300 text-sm py-2"
+            onClick={handleGoEvent}
+          >
             Volver Inicio
           </Button>
         </CardFooter>

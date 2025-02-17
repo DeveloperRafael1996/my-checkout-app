@@ -13,27 +13,26 @@ const CheckoutForm: React.FC = () => {
 
   useEffect(() => {
     const openForm = () => {
-      const amount = 10;
-      const purchaseNumber = 2020100901;
+      const amount = 50.5;
+      const purchaseNumber = 2020100903;
       const apiUrl = `/api/payment?amount=${amount}&purchaseNumber=${purchaseNumber}`;
       const logo = "http://localhost:3000/images/belity-app.png";
 
       if (window.VisanetCheckout) {
-        //merchantname: "Belicorp SAC",
         window.VisanetCheckout.configure({
           sessiontoken: sessionKey,
           channel: "web",
           merchantid: "456879852",
           purchasenumber: purchaseNumber,
           amount: amount,
-          expirationminutes: "5",
+          expirationminutes: "20",
           timeouturl: "/",
           merchantlogo: logo,
           action: apiUrl,
           formbuttoncolor: "#3900AC",
           buttonsize: "LARGE",
           hidexbutton: "true",
-          usertoken: "jperez@gmail.com",
+          usertoken: "djzm80@gmail.com",
         });
 
         window.VisanetCheckout.open();
