@@ -11,12 +11,12 @@ const CheckoutForm: React.FC = () => {
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
   const { sessionKey } = useSession();
 
-
   useEffect(() => {
     const openForm = () => {
       const amount = 10;
       const purchaseNumber = 2020100901;
       const apiUrl = `/api/payment?amount=${amount}&purchaseNumber=${purchaseNumber}`;
+      const logo = "http://localhost:3000/images/belity-app.png";
 
       if (window.VisanetCheckout) {
         window.VisanetCheckout.configure({
@@ -27,11 +27,13 @@ const CheckoutForm: React.FC = () => {
           amount: amount,
           expirationminutes: "5",
           timeouturl: "/",
-          merchantlogo: "",
-          merchantname: "Belicorp SAC",
+          merchantlogo: logo,
+          //merchantname: "Belicorp SAC",
           action: apiUrl,
           formbuttoncolor: "#430AFF",
           buttonsize: "LARGE",
+          hidexbutton: "true",
+          usertoken: "jperez@gmail.com",
         });
 
         window.VisanetCheckout.open();
