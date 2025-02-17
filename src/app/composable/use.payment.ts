@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Security } from "../dto/security.dto";
 import PayService from "../services/pay.services";
-import { SessionResponse } from "../dto/sesion.dto";
+import { RequestSessionDto, SessionResponse } from "../dto/sesion.dto";
 import { ErrorTransaction, Transaction } from "../dto/transaction.dto";
 import { RequestWebhookDto } from "../dto/authorization.dto";
 
@@ -14,11 +14,11 @@ export const useToken = () => {
   return { data, error, isLoading, isError, refetch };
 };
 
-export const useSession = () => {
+export const useSession = (request: RequestSessionDto) => {
   const { data, error, isLoading, isError, refetch } =
     useQuery<SessionResponse>({
       queryKey: ["getSession"],
-      queryFn: () => PayService.apiSession(),
+      queryFn: () => PayService.apiSession(request),
     });
 
   return { ...data, error, isLoading, isError, refetch };

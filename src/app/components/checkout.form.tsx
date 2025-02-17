@@ -8,11 +8,19 @@ import pino from "pino";
 const logger = pino();
 
 const CheckoutForm: React.FC = () => {
-  const amount = 50.5;
+  //Get Query Params URL Base64 / Encripted
+
+  const amount = 50.50;
   const purchaseNumber = 2020100903;
+  const customerId = "11119922";
+  const clientMail = "djzm80@gmail.com";
 
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
-  const { sessionKey } = useSession();
+  const { sessionKey } = useSession({
+    amount,
+    clientId: customerId,
+    email: clientMail,
+  });
 
   useEffect(() => {
     const openForm = () => {
