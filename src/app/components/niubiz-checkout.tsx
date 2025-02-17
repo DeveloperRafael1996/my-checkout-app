@@ -4,13 +4,11 @@ import { useEffect, useState } from "react";
 import Script from "next/script";
 import { useSession } from "../composable/use.payment";
 import pino from "pino";
-
 const logger = pino();
 
-const CheckoutForm: React.FC = () => {
+export function NiubizCheckout() {
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
   const { sessionKey } = useSession();
-
 
   useEffect(() => {
     const openForm = () => {
@@ -46,17 +44,15 @@ const CheckoutForm: React.FC = () => {
   }, [sessionKey, isScriptLoaded]);
 
   return (
-    <>
+    <div className="relative">
       <Script
         strategy="afterInteractive"
         src="https://static-content-qas.vnforapps.com/v2/js/checkout.js"
         onLoad={() => {
-          logger.info("Checkout Script Loaded Successfully");
+          console.log("Checkout Script Loaded Successfully");
           setIsScriptLoaded(true);
         }}
       />
-    </>
+    </div>
   );
-};
-
-export default CheckoutForm;
+}
