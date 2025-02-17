@@ -10,10 +10,10 @@ const logger = pino();
 const CheckoutForm: React.FC = () => {
   //Get Query Params URL Base64 / Encripted
 
-  const amount = 50.50;
-  const purchaseNumber = 2020100903;
+  const amount = 40.0;
+  const purchaseNumber = 2020100906;
   const customerId = "11119922";
-  const clientMail = "djzm80@gmail.com";
+  const clientMail = "rguevara@belity.app";
 
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
   const { sessionKey } = useSession({
@@ -41,7 +41,7 @@ const CheckoutForm: React.FC = () => {
           formbuttoncolor: "#3900AC",
           buttonsize: "LARGE",
           hidexbutton: "true",
-          usertoken: "djzm80@gmail.com",
+          usertoken: clientMail,
         });
 
         window.VisanetCheckout.open();
