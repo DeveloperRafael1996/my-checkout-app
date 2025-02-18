@@ -13,6 +13,8 @@ export async function POST(req: NextRequest) {
     const purchaseNumber = searchParams.get("purchaseNumber");
 
     if (channel === "pagoefectivo") {
+      //CIP --> TransactionToken
+      //Save Code CIP BD Associate To Order
       return NextResponse.redirect(url);
     }
 
