@@ -18,11 +18,12 @@ const CheckoutFormNiubiz: React.FC<CheckoutFormProps> = ({
   sessionKey,
 }) => {
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
 
   useEffect(() => {
     const openForm = () => {
       const apiUrl = `/api/payment?amount=${bodyPay?.amount}&purchaseNumber=${bodyPay?.purchaseNumber}`;
-      const logo = "http://localhost:3000/images/belity-app.png";
+      const logo = `${origin}/images/belity-app.png`;
 
       if (window.VisanetCheckout) {
         window.VisanetCheckout.configure({
