@@ -6,11 +6,12 @@ import { useSession } from "../composable/use.payment";
 import pino from "pino";
 
 const logger = pino();
+const checkoutScript = process.env.NEXT_PUBLIC_CHECKOUT_SCRIPT;
 
 const CheckoutForm: React.FC = () => {
   //Get Query Params URL Base64 / Encripted
 
-  const amount = 40.0;
+  const amount = 15.0;
   const purchaseNumber = 2020100906;
   const customerId = "11119922";
   const clientMail = "rguevara@belity.app";
@@ -59,7 +60,7 @@ const CheckoutForm: React.FC = () => {
     <>
       <Script
         strategy="afterInteractive"
-        src="https://static-content-qas.vnforapps.com/env/sandbox/js/checkout.js"
+        src={checkoutScript}
         onLoad={() => {
           logger.info("Checkout Script Loaded Successfully");
           setIsScriptLoaded(true);
