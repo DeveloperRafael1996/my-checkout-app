@@ -1,4 +1,5 @@
 import { RequestWebhookDto } from "../dto/authorization.dto";
+import { DecryptUrl, DecryptUrlResponse } from "../dto/decry.dto";
 import { Security } from "../dto/security.dto";
 import { RequestSessionDto, SessionResponse } from "../dto/sesion.dto";
 import { TransactionResponse } from "../dto/transaction.dto";
@@ -27,6 +28,11 @@ class PayService {
         Authorization: `${token}`,
       },
     });
+    return response.data;
+  }
+
+  static async decryptUrl(request: DecryptUrl): Promise<DecryptUrlResponse> {
+    const response = await http_pay.post("/encrypt/v1/decrypt-url", request);
     return response.data;
   }
 }

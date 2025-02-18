@@ -5,6 +5,6 @@ export type SessionResponse = {
 
 export type RequestSessionDto = {
   amount: number;
-  clientId: string;
+  clientId: number;
   email: string;
 };

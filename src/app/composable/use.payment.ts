@@ -4,6 +4,7 @@ import PayService from "../services/pay.services";
 import { RequestSessionDto, SessionResponse } from "../dto/sesion.dto";
 import { ErrorTransaction, Transaction } from "../dto/transaction.dto";
 import { RequestWebhookDto } from "../dto/authorization.dto";
+import { DecryptUrl, DecryptUrlResponse } from "../dto/decry.dto";
 
 export const useToken = () => {
   const { data, error, isLoading, isError, refetch } = useQuery<Security>({
@@ -14,14 +15,18 @@ export const useToken = () => {
   return { data, error, isLoading, isError, refetch };
 };
 
-export const useSession = (request: RequestSessionDto) => {
-  const { data, error, isLoading, isError, refetch } =
-    useQuery<SessionResponse>({
-      queryKey: ["getSession"],
-      queryFn: () => PayService.apiSession(request),
-    });
+export const useSessionMutation = () => {
+  const mutation = useMutation<SessionResponse, Error, RequestSessionDto>({
+    mutationFn: async (request: RequestSessionDto) => {
+      const response = await PayService.apiSession(request);
+      return response;
+    },
+  });
 
-  return { ...data, error, isLoading, isError, refetch };
+  return {
+    mutate: mutation.mutate,
+    onHandleSession: mutation.mutateAsync,
+  };
 };
 
 export const useAuthorizationMutation = () => {
@@ -37,7 +42,19 @@ export const useAuthorizationMutation = () => {
   });
 
   return {
-    mutate: mutation.mutate,
     onHandleAuthorization: mutation.mutateAsync,
+  };
+};
+
+export const useDecryptUrlMutation = () => {
+  const mutation = useMutation<DecryptUrlResponse, Error, DecryptUrl>({
+    mutationFn: async (request: DecryptUrl) => {
+      const response = await PayService.decryptUrl(request);
+      return response;
+    },
+  });
+
+  return {
+    onHandleDecrypt: mutation.mutateAsync,
   };
 };

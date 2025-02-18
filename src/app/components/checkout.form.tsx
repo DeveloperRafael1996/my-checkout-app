@@ -2,30 +2,49 @@
 
 import { useEffect, useState } from "react";
 import Script from "next/script";
-import { useSession } from "../composable/use.payment";
+import {
+  useDecryptUrlMutation,
+  useSessionMutation,
+} from "../composable/use.payment";
 import pino from "pino";
+import { useSearchParams } from "next/navigation";
+import { DecryptUrlResponse } from "../dto/decry.dto";
+import { mapperSession } from "../mapper/session.mapper";
 
 const logger = pino();
 const checkoutScript = process.env.NEXT_PUBLIC_CHECKOUT_SCRIPT;
 
 const CheckoutForm: React.FC = () => {
-  //Get Query Params URL Base64 / Encripted
+  const searchParams = useSearchParams();
+  const dataParams = searchParams.get("data");
+  const ivParams = searchParams.get("iv");
 
-  const amount = 15.0;
-  const purchaseNumber = 2020100906;
-  const customerId = "11119922";
-  const clientMail = "rguevara@belity.app";
-
+  const [bodyPay, setBodyPay] = useState<DecryptUrlResponse | null>(null);
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
-  const { sessionKey } = useSession({
-    amount,
-    clientId: customerId,
-    email: clientMail,
-  });
+  const [sessionKey, setSessionKey] = useState<string>("");
+  const { onHandleDecrypt } = useDecryptUrlMutation();
+  const { onHandleSession } = useSessionMutation();
+
+  useEffect(() => {
+    const decryptData = async () => {
+      if (dataParams && ivParams) {
+        const res = await onHandleDecrypt({ data: dataParams, iv: ivParams });
+        setBodyPay(res as DecryptUrlResponse);
+
+        const requestSession = mapperSession(res);
+        const { sessionKey: session } = await onHandleSession(requestSession);
+
+        if (session) {
+          setSessionKey(session);
+        }
+      }
+    };
+    decryptData();
+  }, [dataParams, ivParams]);
 
   useEffect(() => {
     const openForm = () => {
-      const apiUrl = `/api/payment?amount=${amount}&purchaseNumber=${purchaseNumber}`;
+      const apiUrl = `/api/payment?amount=${bodyPay?.amount}&purchaseNumber=${bodyPay?.purchaseNumber}`;
       const logo = "http://localhost:3000/images/belity-app.png";
 
       if (window.VisanetCheckout) {
@@ -33,8 +52,8 @@ const CheckoutForm: React.FC = () => {
           sessiontoken: sessionKey,
           channel: "web",
           merchantid: "456879852",
-          purchasenumber: purchaseNumber,
-          amount: amount,
+          purchasenumber: bodyPay?.purchaseNumber,
+          amount: bodyPay?.amount,
           expirationminutes: "20",
           timeouturl: "/",
           merchantlogo: logo,
@@ -42,7 +61,7 @@ const CheckoutForm: React.FC = () => {
           formbuttoncolor: "#3900AC",
           buttonsize: "LARGE",
           hidexbutton: "true",
-          usertoken: clientMail,
+          usertoken: bodyPay?.clientMail,
         });
 
         window.VisanetCheckout.open();
