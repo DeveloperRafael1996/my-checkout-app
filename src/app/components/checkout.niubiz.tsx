@@ -25,6 +25,8 @@ const CheckoutFormNiubiz: React.FC<CheckoutFormProps> = ({
       const apiUrl = `/api/payment?amount=${bodyPay?.amount}&purchaseNumber=${bodyPay?.purchaseNumber}`;
       const logo = `${origin}/images/belity-app.png`;
 
+      console.log(`Logo`, { logo });
+
       if (window.VisanetCheckout) {
         window.VisanetCheckout.configure({
           sessiontoken: sessionKey,
