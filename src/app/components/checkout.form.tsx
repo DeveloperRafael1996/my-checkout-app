@@ -51,7 +51,7 @@ const CheckoutForm: React.FC = () => {
         window.VisanetCheckout.configure({
           sessiontoken: sessionKey,
           channel: "web",
-          merchantid: "456879852",
+          merchantid: process.env.NEXT_PUBLIC_MERCHANT_ID,
           purchasenumber: bodyPay?.purchaseNumber,
           amount: bodyPay?.amount,
           expirationminutes: "20",
