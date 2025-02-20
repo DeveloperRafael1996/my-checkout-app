@@ -27,7 +27,8 @@ export async function POST(req: NextRequest) {
       new URL(
         `/success?transactionToken=${transactionToken}&amount=${amount}&purchaseNumber=${purchaseNumber}`,
         urlBase
-      )
+      ),
+      303
     );
   } catch {
     //Save Error
