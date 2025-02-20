@@ -10,9 +10,10 @@ export async function POST(req: NextRequest) {
     */
 
     const transactionToken = response.get("transactionToken") as string;
-    const { searchParams } = new URL(req.nextUrl);
+    const { searchParams } = req.nextUrl;
     const amount = searchParams.get("amount");
     const purchaseNumber = searchParams.get("purchaseNumber");
+    const urlBase = process.env.NEXT_PUBLIC_BASE_URL_FRONT;
 
     /* Pay Efectivo
     if (channel === "pagoefectivo") {
@@ -25,7 +26,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.redirect(
       new URL(
         `/success?transactionToken=${transactionToken}&amount=${amount}&purchaseNumber=${purchaseNumber}`,
-        req.nextUrl.origin
+        urlBase
       )
     );
   } catch {
