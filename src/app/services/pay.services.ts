@@ -22,13 +22,14 @@ class PayService {
     data: RequestWebhookDto
   ): Promise<TransactionResponse> {
     const { token } = await this.apitoken();
-
-    const response = await http_pay.post("/payment/v1/authorization", data, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
-    return response.data;
+    
+      const response = await http_pay.post("/payment/v1/authorization", data, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+    
+      return response.data;
   }
 
   static async decryptUrl(request: DecryptUrl): Promise<DecryptUrlResponse> {

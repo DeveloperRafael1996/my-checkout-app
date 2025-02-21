@@ -1,12 +1,36 @@
-"use client";
-
+/*
 import { Suspense } from "react";
 import { SearchParamsComponent } from "./components/checkout.wrapper";
+*/
+import { initPaymentConfiguration } from "./actions/payment-configuration-setup.actiont";
+import CheckoutFormNiubiz from "./components/checkout.niubiz";
 
-export default function Home() {
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
+  const { data, iv } = await searchParams;
+
+  console.log({
+    data,
+    iv,
+  });
+
+  if (data === undefined || iv === undefined) {
+    throw new Error("No keys");
+  }
+
+  const { bodyPay, sessionKey } = await initPaymentConfiguration({
+    data: data as string,
+    iv: iv as string,
+  });
+
   return (
-    <Suspense fallback={<div>Cargando...</div>}>
-      <SearchParamsComponent />
-    </Suspense>
+    <div className="bg-primary">
+      <CheckoutFormNiubiz bodyPay={bodyPay} sessionKey={sessionKey} />
+    </div>
   );
 }

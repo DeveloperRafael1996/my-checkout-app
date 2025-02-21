@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { usePaymentSetup } from "../hooks/usePaymentSetup";
 import CheckoutFormNiubiz from "./checkout.niubiz";
-import { useClienteStore } from "@/store/cliente.store";
+// import { useClienteStore } from "@/store/cliente.store";
 
 export const SearchParamsComponent = () => {
   const searchParams = useSearchParams();
