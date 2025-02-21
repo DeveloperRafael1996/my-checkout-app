@@ -10,6 +10,6 @@ export const http = axios.create({
 });
 
 export const http_pay = axios.create({
-  baseURL: API_BASE_URL_MS_PAY,
+  baseURL: "https://ms-pay-dev-700901035298.us-central1.run.app",
   headers: { "Content-Type": "application/json" },
 });
