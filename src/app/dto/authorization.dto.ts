@@ -27,5 +27,5 @@ export type RequestWebhookDto = {
   purchaseNumber: AuthorizationData["order"]["purchaseNumber"];
   amount: AuthorizationData["order"]["amount"];
   clientId: number;
-  email: string;
+  //email: string;
 };

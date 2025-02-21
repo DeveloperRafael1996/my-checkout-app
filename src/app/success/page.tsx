@@ -14,6 +14,7 @@ import SuccessMobile from "../components/success";
 import PagoErrorMobile from "../components/error.pay";
 import MobileLoading from "../components/loading";
 import { useAuthorizationMutation } from "../composable/use.payment";
+import { useClienteStore } from "@/store/cliente.store";
 
 const SuccessPageContent = () => {
   const [transactionData, setTransactionData] =
@@ -25,26 +26,34 @@ const SuccessPageContent = () => {
   const amount = Number(searchParams.get("amount"));
   const { onHandleAuthorization } = useAuthorizationMutation();
 
+  //const clientId = useClienteStore((state) => state.clientId);
+  //const clearClientId = useClienteStore((state) => state.clearClientId);
+  const { clientId } = useClienteStore();
+  console.log("SuccessPageContent:", clientId);
+
   const handleAuthorization = useCallback(async () => {
     if (transactionToken && purchaseNumber && amount) {
       const request: RequestWebhookDto = {
         tokenId: transactionToken,
         amount: amount,
-        clientId: 12222211,
-        email: "rguevara@belity.app",
+        clientId: clientId!,
         purchaseNumber: purchaseNumber,
       };
 
       try {
         const res = (await onHandleAuthorization(request)) as Transaction;
         setTransactionData({ status: "success", data: res });
+        //clearClientId();
       } catch (error) {
+        //clearClientId();
         if (axios.isAxiosError(error) && error.response) {
           setTransactionData({
             status: "error",
             error: error.response.data as ErrorTransaction,
           });
         } else {
+          //clearClientId();
+          //Clean Store
           /* Fixear
             setTransactionData({
               status: "error",

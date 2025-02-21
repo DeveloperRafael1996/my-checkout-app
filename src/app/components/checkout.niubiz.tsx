@@ -12,13 +12,13 @@ interface CheckoutFormProps {
   bodyPay: DecryptUrlResponse | null;
   sessionKey: string;
 }
+const origin = typeof window !== "undefined" ? window.location.origin : "";
 
 const CheckoutFormNiubiz: React.FC<CheckoutFormProps> = ({
   bodyPay,
   sessionKey,
 }) => {
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
-  const origin = typeof window !== "undefined" ? window.location.origin : "";
 
   useEffect(() => {
     const openForm = () => {
