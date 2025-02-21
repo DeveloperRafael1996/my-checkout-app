@@ -1,4 +1,4 @@
 
 export default function PaymenyPageLoading () {
-    return <div>Loading...</div>
+    return <div>Loading Component...</div>
 }
