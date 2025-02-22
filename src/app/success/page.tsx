@@ -13,7 +13,8 @@ import axios from "axios";
 import SuccessMobile from "../components/success";
 import PagoErrorMobile from "../components/error.pay";
 import MobileLoading from "../components/loading";
-import { useAuthorizationMutation } from "../composable/use.payment";
+//import { useAuthorizationMutation } from "../composable/use.payment";
+import { apiauthorization } from "../actions/payment-setup.action";
 //import { useClienteStore } from "@/store/cliente.store";
 
 const SuccessPageContent = () => {
@@ -27,8 +28,7 @@ const SuccessPageContent = () => {
 
   console.log({ transactionToken, purchaseNumber, amount });
 
-  const { onHandleAuthorization } = useAuthorizationMutation();
-
+  //const { onHandleAuthorization } = useAuthorizationMutation();
   //const clientId = useClienteStore((state) => state.clientId);
   //const clearClientId = useClienteStore((state) => state.clearClientId);
   //const { clientId } = useClienteStore();
@@ -44,7 +44,7 @@ const SuccessPageContent = () => {
       };
 
       try {
-        const res = (await onHandleAuthorization(request)) as Transaction;
+        const res = (await apiauthorization(request)) as Transaction;
         setTransactionData({ status: "success", data: res });
         //clearClientId();
       } catch (error) {
@@ -72,7 +72,7 @@ const SuccessPageContent = () => {
         }
       }
     }
-  }, [transactionToken, purchaseNumber, amount, onHandleAuthorization]);
+  }, [transactionToken, purchaseNumber, amount]);
 
   useEffect(() => {
     handleAuthorization();

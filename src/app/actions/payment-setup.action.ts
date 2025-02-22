@@ -22,14 +22,7 @@ export const apiSession = async (
 export const apiauthorization = async (
   data: RequestWebhookDto
 ): Promise<TransactionResponse> => {
-  const { token } = await apiToken();
-
-  const response = await http_pay.post("/payment/v1/authorization", data, {
-    headers: {
-      Authorization: `${token}`,
-    },
-  });
-
+  const response = await http_pay.post("/payment/v1/authorization", data);
   return response.data;
 };
 
