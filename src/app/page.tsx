@@ -23,7 +23,7 @@ export default async function Home({
   });
 
   return (
-    <div className="bg-primary">
+    <div>
       <CheckoutFormNiubiz bodyPay={bodyPay} sessionKey={sessionKey} />
     </div>
   );
