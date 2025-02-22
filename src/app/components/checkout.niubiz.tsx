@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Script from "next/script";
 import pino from "pino";
 import { DecryptUrlResponse } from "../dto/decry.dto";
+import { useClienteStore } from "@/store/cliente.store";
 
 const logger = pino();
 const checkoutScript = process.env.NEXT_PUBLIC_CHECKOUT_SCRIPT;
@@ -19,6 +20,7 @@ const CheckoutFormNiubiz: React.FC<CheckoutFormProps> = ({
   sessionKey,
 }) => {
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
+  const store = useClienteStore();
 
   useEffect(() => {
     const openForm = () => {
@@ -49,6 +51,7 @@ const CheckoutFormNiubiz: React.FC<CheckoutFormProps> = ({
     };
 
     if (isScriptLoaded && sessionKey && bodyPay) {
+      store.setClientId(bodyPay.customerId);
       openForm();
     }
   }, [sessionKey, isScriptLoaded, bodyPay]);

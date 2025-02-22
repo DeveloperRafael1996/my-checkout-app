@@ -1,82 +1,60 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { RequestWebhookDto } from "../dto/authorization.dto";
-import { Suspense, useCallback, useEffect, useState } from "react";
-
+import { useClienteStore } from "@/store/cliente.store";
+import { apiauthorization } from "../actions/payment-setup.action";
 import {
   ErrorTransaction,
   Transaction,
   TransactionState,
 } from "../dto/transaction.dto";
-import axios from "axios";
 import SuccessMobile from "../components/success";
 import PagoErrorMobile from "../components/error.pay";
 import MobileLoading from "../components/loading";
-//import { useAuthorizationMutation } from "../composable/use.payment";
-import { apiauthorization } from "../actions/payment-setup.action";
-//import { useClienteStore } from "@/store/cliente.store";
+import { RequestWebhookDto } from "../dto/authorization.dto";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import axios from "axios";
 
-const SuccessPageContent = () => {
+export default function Success() {
   const [transactionData, setTransactionData] =
     useState<TransactionState | null>(null);
-
   const searchParams = useSearchParams();
-  const transactionToken = searchParams.get("transactionToken");
-  const purchaseNumber = searchParams.get("purchaseNumber");
-  const amount = Number(searchParams.get("amount"));
+  const transactionToken = searchParams.get("transactionToken") ?? "";
+  const purchaseNumber = searchParams.get("purchaseNumber") ?? "";
+  const amount = Number(searchParams.get("amount")) || 0;
 
-  console.log({ transactionToken, purchaseNumber, amount });
+  const clientId = useClienteStore((state) => state.clientId);
+  const clearClientId = useClienteStore((state) => state.clearClientId);
 
-  //const { onHandleAuthorization } = useAuthorizationMutation();
-  //const clientId = useClienteStore((state) => state.clientId);
-  //const clearClientId = useClienteStore((state) => state.clearClientId);
-  //const { clientId } = useClienteStore();
-  //console.log("SuccessPageContent:", clientId);
+  useEffect(() => {
+    const handleAuthorization = async () => {
+      if (!transactionToken || !purchaseNumber || amount <= 0 || !clientId)
+        return;
 
-  const handleAuthorization = useCallback(async () => {
-    if (transactionToken && purchaseNumber && amount) {
       const request: RequestWebhookDto = {
         tokenId: transactionToken,
-        amount: amount,
-        clientId: 12,
-        purchaseNumber: purchaseNumber,
+        amount,
+        clientId,
+        purchaseNumber,
       };
 
       try {
         const res = (await apiauthorization(request)) as Transaction;
         setTransactionData({ status: "success", data: res });
-        //clearClientId();
       } catch (error) {
-        //clearClientId();
         if (axios.isAxiosError(error) && error.response) {
           setTransactionData({
             status: "error",
             error: error.response.data as ErrorTransaction,
           });
-        } else {
-          //clearClientId();
-          //Clean Store
-          /* Fixear
-            setTransactionData({
-              status: "error",
-              error: {
-                errorCode: 400,
-                errorMessage: "Transacción Fallida",
-                data: {
-                  STATUS: "Error Niubiz",
-                },
-              },
-            });
-          */
         }
+      } finally {
+        clearClientId();
       }
-    }
-  }, [transactionToken, purchaseNumber, amount]);
+    };
 
-  useEffect(() => {
     handleAuthorization();
-  }, [handleAuthorization]);
+  }, [transactionToken, purchaseNumber, amount, clientId, clearClientId]);
 
   return (
     <div>
@@ -84,27 +62,17 @@ const SuccessPageContent = () => {
         transactionData.status === "success" ? (
           <SuccessMobile
             data={transactionData}
-            purchaseNumber={purchaseNumber!}
-          ></SuccessMobile>
+            purchaseNumber={purchaseNumber}
+          />
         ) : (
           <PagoErrorMobile
             state={transactionData}
-            purchaseNumber={purchaseNumber!}
-          ></PagoErrorMobile>
+            purchaseNumber={purchaseNumber}
+          />
         )
       ) : (
-        <MobileLoading></MobileLoading>
+        <MobileLoading />
       )}
     </div>
   );
-};
-
-const SuccessPage = () => {
-  return (
-    <Suspense fallback={<p className="text-lg">Cargando...</p>}>
-      <SuccessPageContent />
-    </Suspense>
-  );
-};
-
-export default SuccessPage;
+}
