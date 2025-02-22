@@ -1,5 +1,3 @@
-"use client";
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { XCircle } from "lucide-react";
@@ -43,8 +41,8 @@ export default function ErrorPage() {
           transition={{ delay: 0.6 }}
         >
           <p className="text-xs text-gray-600">
-            <span className="font-semibold text-[#FF3A3A]">Numero Pedido:</span>{" "}
-            None
+            <span className="font-semibold text-[#FF3A3A]">Descripcion:</span>{" "}
+            Contactar Soporte Belity
           </p>
           <p className="text-xs text-gray-600">
             <span className="font-semibold text-[#FF3A3A]">Fecha:</span> {currentDate}

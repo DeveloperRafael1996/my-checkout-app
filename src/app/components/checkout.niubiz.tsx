@@ -13,7 +13,7 @@ interface CheckoutFormProps {
   bodyPay: DecryptUrlResponse | null;
   sessionKey: string;
 }
-const origin = typeof window !== "undefined" ? window.location.origin : "";
+//const origin = typeof window !== "undefined" ? window.location.origin : "";
 
 const CheckoutFormNiubiz: React.FC<CheckoutFormProps> = ({
   bodyPay,
@@ -25,7 +25,9 @@ const CheckoutFormNiubiz: React.FC<CheckoutFormProps> = ({
   useEffect(() => {
     const openForm = () => {
       const apiUrl = `/api/payment?amount=${bodyPay?.amount}&purchaseNumber=${bodyPay?.purchaseNumber}`;
-      const logo = `${origin}/images/belity-app.png`;
+      const logo = `${window.location.origin}/images/belity-app.png`;
+      //const logo = `${origin}/images/belity-app.png`;
+
 
       if (window.VisanetCheckout) {
         window.VisanetCheckout.configure({
