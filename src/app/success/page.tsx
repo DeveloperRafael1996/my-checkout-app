@@ -20,7 +20,7 @@ export default function Success() {
     useState<TransactionState | null>(null);
   const searchParams = useSearchParams();
   const transactionToken = searchParams.get("transactionToken") ?? "";
-  const purchaseNumber = searchParams.get("purchaseNumber") ?? "";
+  const purchaseNumber = Number(searchParams.get("purchaseNumber")) ?? "";
   const amount = Number(searchParams.get("amount")) || 0;
 
   const clientId = useClienteStore((state) => state.clientId);
@@ -38,10 +38,16 @@ export default function Success() {
         purchaseNumber,
       };
 
+      console.log(`Request Authorization`);
+      console.log(request);
+
       try {
         const res = (await apiauthorization(request)) as Transaction;
         setTransactionData({ status: "success", data: res });
       } catch (error) {
+        //console.error(`Error Authorization`);
+        //console.error(error);
+
         if (axios.isAxiosError(error) && error.response) {
           setTransactionData({
             status: "error",
@@ -54,7 +60,7 @@ export default function Success() {
     };
 
     handleAuthorization();
-  }, [transactionToken, purchaseNumber, amount, clientId, clearClientId]);
+  }, [transactionToken, purchaseNumber, amount, clientId]);
 
   return (
     <div>

@@ -1,6 +1,5 @@
 import { DecryptUrlResponse } from "../dto/decry.dto";
-import { mapperSession } from "../mapper/session.mapper";
-import { apiSession, decryptUrl } from "./payment-setup.action";
+import { decryptUrlSession } from "./payment-setup.action";
 
 interface InitPaymentOptions {
   data: string;
@@ -16,16 +15,25 @@ export const initPaymentConfiguration = async ({
   data,
   iv,
 }: InitPaymentOptions): Promise<InitPaymentResponse> => {
-  const decryptResponse = await decryptUrl({
+  const { data: bodyPay, session } = await decryptUrlSession({
     data,
     iv,
   });
 
-  const requestSession = mapperSession(decryptResponse);
-  const { sessionKey } = await apiSession(requestSession);
+  /*
+
+    const decryptResponse = await decryptUrl({
+      data,
+      iv,
+    });
+
+    const requestSession = mapperSession(decryptResponse);
+    const { sessionKey } = await apiSession(requestSession);
+
+  */
 
   return {
-    bodyPay: decryptResponse,
-    sessionKey,
+    bodyPay,
+    sessionKey: session.sessionKey,
   };
 };

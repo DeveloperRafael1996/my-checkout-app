@@ -19,7 +19,7 @@ export default function PagoErrorMobile({
   purchaseNumber,
 }: {
   state: TransactionState;
-  purchaseNumber: string;
+  purchaseNumber: number;
 }) {
   const router = useRouter();
 

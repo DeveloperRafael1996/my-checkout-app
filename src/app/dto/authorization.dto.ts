@@ -1,7 +1,7 @@
 type Order = {
   amount: number;
   currency: string;
-  purchaseNumber: string;
+  purchaseNumber: number;
   tokenId: string;
 };
 
