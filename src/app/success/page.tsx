@@ -14,7 +14,7 @@ import SuccessMobile from "../components/success";
 import PagoErrorMobile from "../components/error.pay";
 import MobileLoading from "../components/loading";
 import { useAuthorizationMutation } from "../composable/use.payment";
-import { useClienteStore } from "@/store/cliente.store";
+//import { useClienteStore } from "@/store/cliente.store";
 
 const SuccessPageContent = () => {
   const [transactionData, setTransactionData] =
@@ -24,19 +24,22 @@ const SuccessPageContent = () => {
   const transactionToken = searchParams.get("transactionToken");
   const purchaseNumber = searchParams.get("purchaseNumber");
   const amount = Number(searchParams.get("amount"));
+
+  console.log({ transactionToken, purchaseNumber, amount });
+
   const { onHandleAuthorization } = useAuthorizationMutation();
 
   //const clientId = useClienteStore((state) => state.clientId);
   //const clearClientId = useClienteStore((state) => state.clearClientId);
-  const { clientId } = useClienteStore();
-  console.log("SuccessPageContent:", clientId);
+  //const { clientId } = useClienteStore();
+  //console.log("SuccessPageContent:", clientId);
 
   const handleAuthorization = useCallback(async () => {
     if (transactionToken && purchaseNumber && amount) {
       const request: RequestWebhookDto = {
         tokenId: transactionToken,
         amount: amount,
-        clientId: clientId!,
+        clientId: 12,
         purchaseNumber: purchaseNumber,
       };
 

@@ -1,6 +1,6 @@
 /*
-import { Suspense } from "react";
-import { SearchParamsComponent } from "./components/checkout.wrapper";
+  import { Suspense } from "react";
+  import { SearchParamsComponent } from "./components/checkout.wrapper";
 */
 import { initPaymentConfiguration } from "./actions/payment-configuration-setup.actiont";
 import CheckoutFormNiubiz from "./components/checkout.niubiz";
@@ -13,14 +13,8 @@ export default async function Home({
   searchParams: SearchParams;
 }) {
   const { data, iv } = await searchParams;
-
-  console.log({
-    data,
-    iv,
-  });
-
   if (data === undefined || iv === undefined) {
-    throw new Error("No keys");
+    throw new Error("No Keys");
   }
 
   const { bodyPay, sessionKey } = await initPaymentConfiguration({

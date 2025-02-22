@@ -22,7 +22,6 @@ export const initPaymentConfiguration = async ({
   });
 
   const requestSession = mapperSession(decryptResponse);
-  console.log(`Request `, { requestSession });
   const { sessionKey } = await apiSession(requestSession);
 
   return {
