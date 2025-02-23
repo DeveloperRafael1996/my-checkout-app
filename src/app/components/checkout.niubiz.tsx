@@ -24,8 +24,7 @@ const CheckoutFormNiubiz: React.FC<CheckoutFormProps> = ({
       return;
     }
 
-    store.setClientId(bodyPay.customerId);
-
+    store.setClientData(bodyPay);
     const apiUrl = `/api/payment?amount=${bodyPay.amount}&purchaseNumber=${bodyPay.purchaseNumber}`;
     const logo = `${window.location.origin}/images/belity-app.png`;
 
