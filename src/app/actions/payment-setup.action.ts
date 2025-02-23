@@ -1,7 +1,11 @@
 "use server";
 
 import { RequestWebhookDto } from "../dto/authorization.dto";
-import { DecryptUrl, DecryptUrlResponse } from "../dto/decry.dto";
+import {
+  DecryptUrl,
+  DecryptUrlResponse,
+  DecryptUrlSessionResponse,
+} from "../dto/decry.dto";
 import { Security } from "../dto/security.dto";
 import { RequestSessionDto, SessionResponse } from "../dto/sesion.dto";
 import { TransactionResponse } from "../dto/transaction.dto";
@@ -30,5 +34,15 @@ export const decryptUrl = async (
   request: DecryptUrl
 ): Promise<DecryptUrlResponse> => {
   const response = await http_pay.post("/encrypt/v1/decrypt-url", request);
+  return response.data;
+};
+
+export const decryptUrlSession = async (
+  request: DecryptUrl
+): Promise<DecryptUrlSessionResponse> => {
+  const response = await http_pay.post(
+    "/encrypt/v1/decrypt-url-seccion",
+    request
+  );
   return response.data;
 };
