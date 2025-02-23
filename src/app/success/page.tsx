@@ -15,10 +15,12 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
 
+/*
 interface ValidationDetail {
   column: string;
   errors: string[];
 }
+  */
 
 export default function Success() {
   const [transactionData, setTransactionData] =
@@ -60,26 +62,10 @@ export default function Success() {
         if (axios.isAxiosError(error) && error.response) {
           const responseData = error.response.data;
 
-          if (
-            responseData?.mensaje === "Validación" &&
-            Array.isArray(responseData.details)
-          ) {
-            const validationErrors = responseData.details.map(
-              (detail: ValidationDetail) => ({
-                column: detail.column,
-                errors: detail.errors,
-              })
-            );
-
-            throw new Error(`(${validationErrors})`);
-          } else {
-            setTransactionData({
-              status: "error",
-              error: error.response.data as ErrorTransaction,
-            });
-          }
-        } else if (error instanceof Error) {
-          throw new Error(`(${error})`);
+          setTransactionData({
+            status: "error",
+            error: responseData as ErrorTransaction,
+          });
         }
       } finally {
         clearClientData();
