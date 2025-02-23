@@ -20,7 +20,7 @@ export default function Success() {
     useState<TransactionState | null>(null);
   const searchParams = useSearchParams();
   const transactionToken = searchParams.get("transactionToken") ?? "";
-  const purchaseNumber = searchParams.get("purchaseNumber") ?? "";
+  const purchaseNumber = Number(searchParams.get("purchaseNumber")) ?? "";
   const amount = Number(searchParams.get("amount")) || 0;
 
   const clientId = useClienteStore((state) => state.clientId);

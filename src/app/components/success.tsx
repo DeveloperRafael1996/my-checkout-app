@@ -20,7 +20,7 @@ export default function SuccessMobile({
   showAlternativeView = false,
 }: {
   data: TransactionState;
-  purchaseNumber: string;
+  purchaseNumber: number
   showAlternativeView?: boolean;
 }) {
   if (data.status !== "success") return null;
