@@ -1,7 +1,6 @@
 "use client";
 
 import { useClienteStore } from "@/store/cliente.store";
-import { apiauthorization } from "../actions/payment-setup.action";
 import {
   ErrorTransaction,
   Transaction,

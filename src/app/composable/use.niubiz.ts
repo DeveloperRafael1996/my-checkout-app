@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { ErrorTransaction, Transaction } from "../dto/transaction.dto";
-import { AuthorizationData, RequestWebhookDto } from "../dto/authorization.dto";
+import { RequestWebhookDto } from "../dto/authorization.dto";
 import NiunizService from "../services/niubiz.services";
 
 export const useAuthorizationMutation = () => {
