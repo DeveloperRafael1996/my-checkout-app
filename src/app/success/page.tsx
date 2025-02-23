@@ -26,13 +26,18 @@ export default function Success() {
   const purchaseNumber = Number(searchParams.get("purchaseNumber")) ?? "";
   const amount = Number(searchParams.get("amount")) || 0;
 
-  const clientId = useClienteStore((state) => state.clientId);
-  const clearClientId = useClienteStore((state) => state.clearClientId);
+  const { clientId, name, clearClientData } = useClienteStore();
   const { onHandleAuthorization } = useAuthorizationMutation();
 
   useEffect(() => {
     const handleAuthorization = async () => {
-      if (!transactionToken || !purchaseNumber || amount <= 0 || !clientId)
+      if (
+        !transactionToken ||
+        !purchaseNumber ||
+        amount <= 0 ||
+        !name ||
+        !clientId
+      )
         return;
 
       const request: RequestWebhookDto = {
@@ -40,6 +45,7 @@ export default function Success() {
         amount,
         clientId,
         purchaseNumber,
+        name,
       };
 
       logger.info(`Request `, request);
@@ -55,12 +61,12 @@ export default function Success() {
           });
         }
       } finally {
-        clearClientId();
+        clearClientData();
       }
     };
 
     handleAuthorization();
-  }, [transactionToken, purchaseNumber, amount, clientId, clearClientId]);
+  }, [transactionToken, purchaseNumber, amount, clientId]);
 
   return (
     <div>

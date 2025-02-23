@@ -1,3 +1,3 @@
 export default function PaymenyPageLoading() {
-  return <div></div>;
+  return <div>Loading</div>;
 }

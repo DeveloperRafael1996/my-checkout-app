@@ -8,6 +8,7 @@ export type DecryptUrlResponse = {
   purchaseNumber: number;
   customerId: number;
   clientMail: string;
+  name: string;
 };
 
 type DecryptedData = {
