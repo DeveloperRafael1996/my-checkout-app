@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import pino from "pino";
+import { useAuthorizationMutation } from "../composable/use.niubiz";
 
 const logger = pino();
 
@@ -28,6 +29,7 @@ export default function Success() {
 
   const clientId = useClienteStore((state) => state.clientId);
   const clearClientId = useClienteStore((state) => state.clearClientId);
+  const { onHandleAuthorization } = useAuthorizationMutation();
 
   useEffect(() => {
     const handleAuthorization = async () => {
@@ -44,7 +46,7 @@ export default function Success() {
       logger.info(`Request `, request);
 
       try {
-        const res = (await apiauthorization(request)) as Transaction;
+        const res = (await onHandleAuthorization(request)) as Transaction;
         setTransactionData({ status: "success", data: res });
       } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
