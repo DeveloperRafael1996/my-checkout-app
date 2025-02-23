@@ -15,6 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <title>Pay Belity</title>
+      </head>
       <body className={inter.className}>
         <QueryClientProvider client={queryClient}>
           {children}

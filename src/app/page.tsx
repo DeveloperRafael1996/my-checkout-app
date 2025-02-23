@@ -23,8 +23,10 @@ export default async function Home({
   });
 
   return (
-    <div>
-      <CheckoutFormNiubiz bodyPay={bodyPay} sessionKey={sessionKey} />
-    </div>
+    <>
+      <div>
+        <CheckoutFormNiubiz bodyPay={bodyPay} sessionKey={sessionKey} />
+      </div>
+    </>
   );
 }
