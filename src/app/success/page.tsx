@@ -41,7 +41,7 @@ export default function Success() {
         purchaseNumber,
       };
 
-      logger.info(`Reques `, request);
+      logger.info(`Request `, request);
 
       try {
         const res = (await apiauthorization(request)) as Transaction;
