@@ -14,6 +14,9 @@ import { RequestWebhookDto } from "../dto/authorization.dto";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
+import pino from "pino";
+
+const logger = pino();
 
 export default function Success() {
   const [transactionData, setTransactionData] =
@@ -37,6 +40,8 @@ export default function Success() {
         clientId,
         purchaseNumber,
       };
+
+      logger.info(`Reques `, request);
 
       try {
         const res = (await apiauthorization(request)) as Transaction;
