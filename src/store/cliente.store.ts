@@ -8,6 +8,9 @@ interface ClienteStore {
   purchaseNumber: number | null;
   clientMail: string | null;
   name: string | null;
+  document_number: string | null;
+  phone_number: string | null;
+  createdAt: string | null;
 
   setClientData: (data: DecryptUrlResponse) => void;
   clearClientData: () => void;
@@ -21,6 +24,9 @@ export const useClienteStore = create<ClienteStore>()(
       purchaseNumber: null,
       clientMail: null,
       name: null,
+      document_number: null,
+      phone_number: null,
+      createdAt: null,
 
       setClientData: (data: DecryptUrlResponse) => {
         set({
@@ -29,6 +35,9 @@ export const useClienteStore = create<ClienteStore>()(
           purchaseNumber: data.purchaseNumber,
           clientMail: data.clientMail,
           name: data.name,
+          document_number: data.document_number,
+          phone_number: data.phone_number,
+          createdAt: data.createdAt,
         });
       },
 
@@ -39,6 +48,9 @@ export const useClienteStore = create<ClienteStore>()(
           purchaseNumber: null,
           clientMail: null,
           name: null,
+          document_number: null,
+          phone_number: null,
+          createdAt: null,
         }),
     }),
     {

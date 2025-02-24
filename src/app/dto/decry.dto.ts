@@ -9,6 +9,9 @@ export type DecryptUrlResponse = {
   customerId: number;
   clientMail: string;
   name: string;
+  document_number: string;
+  phone_number: string;
+  createdAt: string;
 };
 
 type DecryptedData = {
@@ -17,6 +20,9 @@ type DecryptedData = {
   customerId: number;
   clientMail: string;
   name: string;
+  document_number: string;
+  phone_number: string;
+  createdAt: string;
 };
 
 type SessionResponse = {
