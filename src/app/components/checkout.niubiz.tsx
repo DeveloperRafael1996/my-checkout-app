@@ -38,7 +38,7 @@ const CheckoutFormNiubiz: React.FC<CheckoutFormProps> = ({
       timeouturl: "/",
       merchantlogo: logo,
       action: apiUrl,
-      formbuttoncolor: "3F00FF",
+      formbuttoncolor: "#3F00FF",
       buttonsize: "LARGE",
       hidexbutton: "true",
       usertoken: bodyPay.clientMail,
