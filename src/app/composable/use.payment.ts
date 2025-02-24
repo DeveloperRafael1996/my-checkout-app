@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Security } from "../dto/security.dto";
 import PayService from "../services/pay.services";
 import { RequestSessionDto, SessionResponse } from "../dto/sesion.dto";
-import { ErrorTransaction, Transaction } from "../dto/transaction.dto";
+import { ErrorTransaction, ResponseTransaction } from "../dto/transaction.dto";
 import { RequestWebhookDto } from "../dto/authorization.dto";
 import { DecryptUrl, DecryptUrlResponse } from "../dto/decry.dto";
 
@@ -31,7 +31,7 @@ export const useSessionMutation = () => {
 
 export const useAuthorizationMutation = () => {
   const mutation = useMutation<
-    Transaction | ErrorTransaction,
+    ResponseTransaction | ErrorTransaction,
     Error,
     RequestWebhookDto
   >({
