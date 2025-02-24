@@ -3,7 +3,7 @@
 import { useClienteStore } from "@/store/cliente.store";
 import {
   ErrorTransaction,
-  Transaction,
+  ResponseTransaction,
   TransactionState,
 } from "../dto/transaction.dto";
 import SuccessMobile from "../components/success";
@@ -51,8 +51,14 @@ export default function Success() {
       logger.info(`Request `, request);
 
       try {
-        const res = (await onHandleAuthorization(request)) as Transaction;
-        setTransactionData({ status: "success", data: res });
+        const res = (await onHandleAuthorization(
+          request
+        )) as ResponseTransaction;
+        setTransactionData({
+          status: "success",
+          data: res.result,
+          client: res.client,
+        });
       } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
           setTransactionData({
@@ -75,6 +81,7 @@ export default function Success() {
           <SuccessMobile
             data={transactionData}
             purchaseNumber={purchaseNumber}
+            client={transactionData.client}
           />
         ) : (
           <PagoErrorMobile

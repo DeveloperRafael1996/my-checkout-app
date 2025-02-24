@@ -95,14 +95,24 @@ export type ErrorTransaction = {
   };
 };
 
+export type Client = {
+  name: string;
+  clientId: number;
+};
+
 /*
 type SimplifiedErrorTransaction = Omit<ErrorTransaction, "header" | "data"> & {
   data: { STATUS: string };
 };
 */
 
+export type ResponseTransaction = {
+  result: Transaction;
+  client: Client;
+};
+
 export type TransactionState =
-  | { status: "success"; data: Transaction }
+  | { status: "success"; data: Transaction, client: Client }
   | { status: "error"; error: ErrorTransaction };
 
-export type TransactionResponse = Promise<Transaction | ErrorTransaction>;
+export type TransactionResponse = Promise<ResponseTransaction | ErrorTransaction>;

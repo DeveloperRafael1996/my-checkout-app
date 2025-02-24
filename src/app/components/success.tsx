@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { TransactionState } from "../dto/transaction.dto";
+import { Client, TransactionState } from "../dto/transaction.dto";
 import { convertTimestampText } from "../utils/date";
 import { DataItem, DataItemAlternative } from "./data.item";
 
@@ -18,10 +18,12 @@ export default function SuccessMobile({
   data,
   purchaseNumber,
   showAlternativeView = false,
+  client,
 }: {
   data: TransactionState;
   purchaseNumber: number
   showAlternativeView?: boolean;
+  client: Client,
 }) {
   if (data.status !== "success") return null;
 
@@ -91,7 +93,7 @@ export default function SuccessMobile({
               transition={{ delay: 0.6 }}
             >
               <DataItem label="Numero Pedido" value={purchaseNumber} />
-              <DataItem label="Cliente" value="Rafael Guevara Aller" />
+              <DataItem label="Cliente" value={client.name} />
               <DataItem label="Fecha" value={date} />
               <DataItem label="Tarjeta" value={card} />
               <DataItem label="Moneda" value={order.currency} />
