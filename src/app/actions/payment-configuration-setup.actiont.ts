@@ -20,17 +20,6 @@ export const initPaymentConfiguration = async ({
     iv,
   });
 
-  /*
-  const decryptResponse = await decryptUrl({
-    data,
-    iv,
-  });
-
-  const requestSession = mapperSession(decryptResponse);
-  const { sessionKey } = await apiSession(requestSession);
-
-  */
-
   return {
     bodyPay,
     sessionKey: session.sessionKey,

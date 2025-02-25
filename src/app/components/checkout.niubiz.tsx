@@ -1,15 +1,14 @@
 "use client";
 
-import Script from "next/script";
-import pino from "pino";
+import { saveInfoPayment } from "../actions/save-info-payment.action";
+// import pino from "pino";
 import { DecryptUrlResponse } from "../dto/decry.dto";
-import { useClienteStore } from "@/store/cliente.store";
+import { useEffect, Fragment } from "react";
 
-const logger = pino();
-const checkoutScript = process.env.NEXT_PUBLIC_CHECKOUT_SCRIPT;
+// const logger = pino();
 
 interface CheckoutFormProps {
-  bodyPay: DecryptUrlResponse | null;
+  bodyPay: DecryptUrlResponse;
   sessionKey: string;
 }
 
@@ -17,14 +16,11 @@ const CheckoutFormNiubiz: React.FC<CheckoutFormProps> = ({
   bodyPay,
   sessionKey,
 }) => {
-  const store = useClienteStore();
-
   const openForm = () => {
-    if (!window.VisanetCheckout || !bodyPay || !sessionKey) {
+    if (!window.VisanetCheckout) {
       return;
     }
 
-    store.setClientData(bodyPay);
     const apiUrl = `/api/payment?amount=${bodyPay.amount}&purchaseNumber=${bodyPay.purchaseNumber}`;
     const logo = `${window.location.origin}/images/belity-app.png`;
 
@@ -42,26 +38,24 @@ const CheckoutFormNiubiz: React.FC<CheckoutFormProps> = ({
       buttonsize: "LARGE",
       hidexbutton: "true",
       usertoken: bodyPay.clientMail,
-      cardholderemail:bodyPay.clientMail,
+      cardholderemail: bodyPay.clientMail,
     });
 
     window.VisanetCheckout.open();
   };
 
-  return (
-    <>
-      <Script
-        strategy="afterInteractive"
-        src={checkoutScript}
-        onLoad={() => {
-          logger.info("Checkout Script Loaded Successfully");
-          if (bodyPay && sessionKey) {
-            openForm();
-          }
-        }}
-      />
-    </>
-  );
+  useEffect(() => {
+    if (!window.VisanetCheckout) {
+      return;
+    }
+
+    saveInfoPayment(bodyPay).then((res) => {
+      console.log(res);
+    });
+    openForm();
+  }, []);
+
+  return <Fragment></Fragment>;
 };
 
 export default CheckoutFormNiubiz;
