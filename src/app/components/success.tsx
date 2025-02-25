@@ -40,7 +40,7 @@ export default function SuccessMobile({
       <Card className="w-full max-w-[340px] border-[#430AFF]/20 shadow-lg shadow-[#430AFF]/10">
         <CardHeader className="pb-4">
           <CardTitle className="text-center text-xl font-bold text-[#430AFF]">
-            Pago Exitoso
+            Pago Exitoso { dataMap.STATUS }
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-5">

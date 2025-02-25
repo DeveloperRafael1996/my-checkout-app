@@ -36,7 +36,7 @@ export default function PagoErrorMobile({
       <Card className="w-full max-w-[340px] border-[#FF3A3A]/20 shadow-lg shadow-[#FF3A3A]/10">
         <CardHeader className="pb-4">
           <CardTitle className="text-center text-xl font-bold text-[#FF3A3A]">
-            Error de Pago
+            Error de Pago { data.STATUS }
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-5">
