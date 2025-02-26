@@ -1,3 +1,5 @@
-export default function PaymenyPageLoading() {
-  return <div>Loading</div>;
+import MobileLoading from "./components/mobile-loading";
+
+export default function PaymentPageLoading() {
+  return <MobileLoading />;
 }
