@@ -1,9 +1,10 @@
 "use client";
 
+import { saveBodyInformation } from "../actions/body-information.action";
 import { saveInfoPayment } from "../actions/save-info-payment.action";
 // import pino from "pino";
 import { DecryptUrlResponse } from "../dto/decry.dto";
-import { useEffect, Fragment } from "react";
+import { useEffect } from "react";
 
 // const logger = pino();
 
@@ -49,13 +50,16 @@ const CheckoutFormNiubiz: React.FC<CheckoutFormProps> = ({
       return;
     }
 
-    saveInfoPayment(bodyPay).then((res) => {
-      console.log(res);
+    saveBodyInformation(bodyPay).then(() => {
+      saveInfoPayment(bodyPay).then((res) => {
+        console.log(res);
+      });
     });
+
     openForm();
   }, []);
 
-  return <Fragment></Fragment>;
+  return <div></div>;
 };
 
 export default CheckoutFormNiubiz;

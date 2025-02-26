@@ -30,7 +30,7 @@ export default function RootLayout({
           strategy="beforeInteractive"
         ></Script>
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-primary`}>
         <Providers>{children}</Providers>
       </body>
     </html>

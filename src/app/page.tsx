@@ -46,12 +46,6 @@ export default async function Home({
     throw new Error("No Keys");
   }
 
-  await new Promise(() => {
-    setTimeout(() => {
-      console.log("Waiting for 5 seconds");
-    }, 5000);
-  });
-
   const { bodyPay, sessionKey } = await initPaymentConfiguration({
     data: data as string,
     iv: iv as string,
@@ -62,10 +56,8 @@ export default async function Home({
   }
 
   return (
-    <>
-      <div>
-        <CheckoutFormNiubiz bodyPay={bodyPay} sessionKey={sessionKey} />
-      </div>
-    </>
+    <div>
+      <CheckoutFormNiubiz bodyPay={bodyPay} sessionKey={sessionKey} />
+    </div>
   );
 }

@@ -4,19 +4,19 @@ import { motion } from "framer-motion";
 
 export default function MobileLoading() {
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="flex items-center justify-center h-screen">
       <div className="flex space-x-3">
         {[0, 1, 2].map((index) => (
           <motion.div
             key={index}
-            className="w-5 h-5 bg-[#430AFF] rounded-full"
+            className="w-10 h-10 bg-primary-foreground rounded-full"
             animate={{
-              scale: [1, 1.3, 1],
-              opacity: [1, 0.6, 1],
+              scale: [1, 1.5, 1],
+              opacity: [1, 0.5, 1],
             }}
             transition={{
-              duration: 1.2,
-              repeat: Number.POSITIVE_INFINITY,
+              duration: 2,
+              repeat: Infinity,
               ease: "easeInOut",
               delay: index * 0.2,
             }}
